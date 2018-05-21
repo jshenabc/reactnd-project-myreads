@@ -4,23 +4,24 @@ import Landing from './components/Landing.js';
 import SearchBook from './components/SearchBook.js';
 import * as BookAPI from './utils/BooksAPI.js';
 import {Route} from 'react-router-dom';
-
+import BookShelf from './components/BookShelf.js';
 
 class BooksApp extends React.Component {
   state = {
     /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
+     * books state is to display books on landing screen
+     * query is to store queries we did on the search page
+     * bookResult is to display books through query search result
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false,
-    books: []
+    books: [],
+    query: '',
+    bookResult: []
   }
 
 
- //2. fetching books from remote server
- //3. once get response we update our local state
+ // fetching books from remote server
+ // once get response we update our local state
  componentDidMount() {
    BookAPI.getAll().then((books) => {
      this.setState(() => ({books}))
@@ -39,12 +40,31 @@ updateBook = (book,shelf) => {
  })
 }
 
+ //update local state query
+ updateQuery = (query) => {
+   this.setState(
+     () => ({query:query.trim()})
+   )
+   BookAPI.search(query).then((bookResult) => {
+     this.setState(() => ({bookResult}))
+   }).catch((err) => {
+    // handle error
+    this.setState({bookResult: []});
+    console.log("myerror:" + err);
+   })
+ }
+
+//show book search result based on clearQuery
+
   render() {
     return (
       <div className="app">
 
-        <Route path='/search' render={() => (
-          <SearchBook/>
+        <Route exact path='/search' render={() => (
+          <div>
+            <SearchBook query={this.state.query} updateQuery={this.updateQuery}/>
+            <BookShelf  books={this.state.bookResult} updateBook={this.updateBook}/>
+          </div>
         )}/>
         <Route exact path='/' render={() => ( <Landing books={this.state.books} updateBook={this.updateBook}/>)}/>
       </div>
