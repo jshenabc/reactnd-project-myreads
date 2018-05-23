@@ -8,29 +8,29 @@ import BookShelf from './components/BookShelf.js';
 
 class BooksApp extends React.Component {
   state = {
-    /**
-     * books state is to display books on landing screen
-     * query is to store queries we did on the search page
-     * bookResult is to display books through query search result
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
     books: [],
     query: '',
     bookResult: [],
     error: ''
   }
 
-
- // fetching books from remote server
- // once get response we update our local state
+  /**
+  * @description fetching books from remote server, once get response we update our local state
+  * @constructor
+  * @param {obj} books - The book needs to be updated
+  */
  componentDidMount() {
    BookAPI.getAll().then((books) => {
      this.setState(() => ({books}))
    })
  }
 
- //pass the books to update API
- //update local state and move book to a new shelf
+ /**
+ * @description pass the books to update API and local state thus move book to a new shelf
+ * @constructor
+ * @param {obj} book - The book needs to be updated
+ * @param {string} shelf - target shelf
+ */
 updateBook = (book,shelf) => {
  book.shelf = shelf
  BookAPI.update(book,shelf).then((obj) => {
@@ -41,7 +41,11 @@ updateBook = (book,shelf) => {
  })
 }
 
- //update local state query
+/**
+* @description Query by Search API and update local state bookResult
+* @constructor
+* @param {string} query - The query in the search
+*/
  updateQuery = (query) => {
    this.setState(
      () => ({query:query.trim()})
@@ -54,7 +58,6 @@ updateBook = (book,shelf) => {
    })
  }
 
-//show book search result based on clearQuery
 
   render() {
     return (
