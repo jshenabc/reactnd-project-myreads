@@ -10,7 +10,7 @@ class SearchBook extends React.Component {
         <div className="search-books-bar">
           <Link className="close-search" to='/'>Close</Link>
           <div className="search-books-input-wrapper">
-            <input onChange={event => this.props.updateQuery(event.target.value)} type="text" placeholder="Search by title or author"/>
+            <input value={this.props.query} onChange={event => this.props.updateQuery(event.target.value)} type="text" placeholder="Search by title or author"/>
           </div>
         </div>
         <div className="search-books-results">
