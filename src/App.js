@@ -16,7 +16,8 @@ class BooksApp extends React.Component {
      */
     books: [],
     query: '',
-    bookResult: []
+    bookResult: [],
+    error: ''
   }
 
 
@@ -31,8 +32,8 @@ class BooksApp extends React.Component {
  //pass the books to update API
  //update local state and move book to a new shelf
 updateBook = (book,shelf) => {
- book.shelf = shelf;
- BookAPI.update(book,shelf).then((book) => {
+ book.shelf = shelf
+ BookAPI.update(book,shelf).then((obj) => {
    this.setState((currentState) => ({
      // Filter the old book out of Books and then concatenate the new book
      books: currentState.books.filter(mybook => mybook.id !== book.id).concat([book])
@@ -47,10 +48,9 @@ updateBook = (book,shelf) => {
    )
    BookAPI.search(query).then((bookResult) => {
      this.setState(() => ({bookResult}))
-   }).catch((err) => {
+   }).catch((error) => {
     // handle error
-    this.setState({bookResult: []});
-    console.log("myerror:" + err);
+     this.setState(() => ({error}))
    })
  }
 
@@ -59,13 +59,14 @@ updateBook = (book,shelf) => {
   render() {
     return (
       <div className="app">
-
+        {/* Search page */}
         <Route exact path='/search' render={() => (
           <div>
             <SearchBook query={this.state.query} updateQuery={this.updateQuery}/>
             <BookShelf  books={this.state.bookResult} updateBook={this.updateBook}/>
           </div>
         )}/>
+        {/* Main landing page */}
         <Route exact path='/' render={() => ( <Landing books={this.state.books} updateBook={this.updateBook}/>)}/>
       </div>
     )
