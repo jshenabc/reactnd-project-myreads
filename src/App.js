@@ -10,8 +10,7 @@ class BooksApp extends React.Component {
   state = {
     books: [],
     query: '',
-    bookResult: [],
-    error: ''
+    bookResult: []
   }
 
   /**
@@ -54,7 +53,7 @@ updateBook = (book,shelf) => {
      this.setState(() => ({bookResult}))
    }).catch((error) => {
     // handle error
-     this.setState(() => ({error}))
+     console.log("error",error)
    })
  }
 
