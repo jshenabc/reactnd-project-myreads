@@ -65,7 +65,7 @@ updateBook = (book,shelf) => {
         <Route exact path='/search' render={() => (
           <div>
             <SearchBook query={this.state.query} updateQuery={this.updateQuery}/>
-            <BookShelf  books={this.state.bookResult} updateBook={this.updateBook}/>
+            <BookShelf books={this.state.bookResult} shelfedBooks={this.state.books} updateBook={this.updateBook}/>
           </div>
         )}/>
         {/* Main landing page */}

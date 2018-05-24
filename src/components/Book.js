@@ -9,14 +9,18 @@ class Book extends React.Component {
     return <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${imageURL})`}}></div>
   }
   render() {
-    const	{book} = this.props
+    const {book, shelfedBooks} = this.props
+    let shelf = book.shelf
+    shelfedBooks && shelfedBooks.forEach(shelfedBook => {
+      if (shelfedBook.id === book.id) shelf = shelfedBook.shelf
+    })
 
     return (
         <div className="book">
           <div className="book-top">
             {this.checkThumbnail()}
             <div className="book-shelf-changer">
-              <select value={book.shelf ? book.shelf : "none"} onChange={event => this.props.updateBook(book,event.target.value)}>
+              <select value={shelf ? shelf : "none"} onChange={event => this.props.updateBook(book,event.target.value)}>
                 <option value="none" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
