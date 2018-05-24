@@ -10,16 +10,17 @@ class Book extends React.Component {
   }
   render() {
     const {book, shelfedBooks} = this.props
-    let shelf = 'none'
+    let shelf = book.shelf
     shelfedBooks && shelfedBooks.forEach(shelfedBook => {
       if (shelfedBook.id === book.id) shelf = shelfedBook.shelf
     })
+
     return (
         <div className="book">
           <div className="book-top">
             {this.checkThumbnail()}
             <div className="book-shelf-changer">
-              <select value={shelf} onChange={event => this.props.updateBook(book,event.target.value)}>
+              <select value={shelf ? shelf : "none"} onChange={event => this.props.updateBook(book,event.target.value)}>
                 <option value="none" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
