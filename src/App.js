@@ -3,8 +3,9 @@ import './App.css';
 import Landing from './components/Landing.js';
 import SearchBook from './components/SearchBook.js';
 import * as BookAPI from './utils/BooksAPI.js';
-import {Route} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import BookShelf from './components/BookShelf.js';
+import NoMatch from './components/NoMatch.js';
 
 class BooksApp extends React.Component {
   state = {
@@ -61,15 +62,18 @@ updateBook = (book,shelf) => {
   render() {
     return (
       <div className="app">
-        {/* Search page */}
-        <Route exact path='/search' render={() => (
-          <div>
-            <SearchBook query={this.state.query} updateQuery={this.updateQuery}/>
-            <BookShelf books={this.state.bookResult} shelfedBooks={this.state.books} updateBook={this.updateBook}/>
-          </div>
-        )}/>
-        {/* Main landing page */}
-        <Route exact path='/' render={() => ( <Landing books={this.state.books} updateBook={this.updateBook}/>)}/>
+        <Switch>
+          {/* Search page */}
+          <Route exact path='/search' render={() => (
+            <div>
+              <SearchBook query={this.state.query} updateQuery={this.updateQuery}/>
+              <BookShelf books={this.state.bookResult} shelfedBooks={this.state.books} updateBook={this.updateBook}/>
+            </div>
+          )}/>
+          {/* Main landing page */}
+          <Route exact path='/' render={() => ( <Landing books={this.state.books} updateBook={this.updateBook}/>)}/>
+          <Route component={NoMatch} />
+        </Switch>
       </div>
     )
   }
