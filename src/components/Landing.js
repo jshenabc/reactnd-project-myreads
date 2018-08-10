@@ -4,15 +4,13 @@ import '../App.css'
 import BookShelf from './BookShelf.js'
 import { Link } from 'react-router-dom'
 
-class Landing extends React.Component {
+const Landing = ({ books, updateBook }) => {
 
-  render() {
     /**
      * create three variables to store diffferent categories of books
      * pass them into our components
      * filter the book to match with the shelf
      */
-    const	{books} = this.props
     const currentlyReadingShelf = books.filter(book => {return book.shelf === "currentlyReading"});
     const wantToReadShelf = books.filter(book => {return book.shelf === "wantToRead"});
     const readShelf = books.filter(book => {return book.shelf === "read"});
@@ -27,15 +25,15 @@ class Landing extends React.Component {
             <div>
               <div className="bookshelf">
                 <h2 className="bookshelf-title">Currently Reading</h2>
-                <BookShelf books={currentlyReadingShelf} updateBook={this.props.updateBook} />
+                <BookShelf books={currentlyReadingShelf} updateBook={updateBook} />
               </div>
               <div className="bookshelf">
                 <h2 className="bookshelf-title">Want to Read</h2>
-                <BookShelf books={wantToReadShelf} updateBook={this.props.updateBook} />
+                <BookShelf books={wantToReadShelf} updateBook={updateBook} />
               </div>
               <div className="bookshelf">
                 <h2 className="bookshelf-title">Read</h2>
-                <BookShelf books={readShelf} updateBook={this.props.updateBook} />
+                <BookShelf books={readShelf} updateBook={updateBook} />
               </div>
             </div>
           </div>
@@ -45,7 +43,6 @@ class Landing extends React.Component {
         </div>
       </div>
     )
-  }
 }
 
 export default Landing
